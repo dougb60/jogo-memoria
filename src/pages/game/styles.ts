@@ -14,7 +14,7 @@ const flicker = keyframes`
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -42,8 +42,9 @@ export const Content = styled.div`
 
 export const TitleContainter = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 10px;
+  /* padding: 10px; */
 `;
 export const Title = styled.h1`
   font-family: 'Teko', sans-serif;
@@ -51,14 +52,27 @@ export const Title = styled.h1`
   font-size: 65px;
   font-weight: normal;
   line-height: 60px;
-  margin: 10px 0 20px;
   text-transform: uppercase;
   text-shadow: 2px 2px 0 #000;
-  margin: 10px 0 24px;
   text-align: center;
 
   display: block;
   text-shadow: 0 0 10px azure, 0 0 20px aqua, 0 0 40px dodgerblue, 0 0 80px blue;
+  will-change: filter, color;
+  filter: saturate(60%);
+  animation: ${flicker} steps(100) 1s infinite;
+`;
+export const SubTitle = styled.h4`
+  font-family: 'Teko', sans-serif;
+  color: lightyellow;
+  font-size: 30px;
+  margin: 10px 0 20px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 #000;
+  text-align: center;
+
+  display: block;
+  text-shadow: 0 0 10px yellow, 0 0 20px gold, 0 0 40px orange, 0 0 80px darkred;
   will-change: filter, color;
   filter: saturate(60%);
   animation: ${flicker} steps(100) 1s infinite;

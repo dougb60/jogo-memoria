@@ -7,8 +7,10 @@ import {
   BackCard,
   FrontCard,
   Title,
+  SubTitle,
   TitleContainter,
 } from './styles';
+import InputName from '../../components/InputName';
 import CardObj from '../../utils/cards';
 
 interface CardObject {
@@ -25,7 +27,9 @@ const MemoryGame: React.FC = () => {
   );
   const [firstSelected, setFirstSelected] = useState<CardObject | null>(null);
   const [secondSelected, setSecondSelected] = useState<CardObject | null>(null);
-  // const [disableFlip, setDisableFlip] = useState(false);
+  const [attempts, setAttempts] = useState<number>(0);
+  const [winner, setWinner] = useState<boolean>(false);
+  const [playerName, setPlayerName] = useState<string | null | undefined>(null);
 
   const handleClick = (data: CardObject): void => {
     const disableClick = statusCards.filter(card => card.status && !card.match);
@@ -47,6 +51,7 @@ const MemoryGame: React.FC = () => {
       setFirstSelected(data);
     } else {
       setSecondSelected(data);
+      setAttempts(attempts + 1);
     }
 
     setStatusCards(cards);
@@ -55,7 +60,6 @@ const MemoryGame: React.FC = () => {
   const resetCards = () => {
     setFirstSelected(null);
     setSecondSelected(null);
-    // setDisableFlip(false);
   };
 
   const notMatch = () => {
@@ -94,10 +98,13 @@ const MemoryGame: React.FC = () => {
       return card;
     });
 
+    const hasWon = cards.every(card => card.match);
+    if (hasWon) {
+      setWinner(true);
+    }
     setTimeout(() => {
       setStatusCards(cards);
     }, 1000);
-
     resetCards();
   };
 
@@ -110,41 +117,55 @@ const MemoryGame: React.FC = () => {
       didMatch();
     } else {
       notMatch();
-      // setDisableFlip(true);
     }
   }, [firstSelected, secondSelected]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (winner) {
+        alert(`vc ganhou em ${attempts} tentativas`);
+      }
+    }, 1100);
+  }, [winner]);
 
   return (
     <Container>
       <TitleContainter>
         <Title>Jogo da Memoria</Title>
+        {playerName && (
+          <SubTitle>{`Player: ${playerName} / Tentativas: ${attempts}`}</SubTitle>
+        )}
       </TitleContainter>
-      <Content>
-        {statusCards &&
-          statusCards.map(card => (
-            <ReactCardFlip isFlipped={card.status} key={card.name}>
-              <FrontCard
-                onClick={() => {
-                  if (!card.match) {
-                    handleClick(card);
-                  } else {
-                    console.log('nop');
-                  }
-                }}
-              />
-              <BackCard
-                onClick={() => {
-                  if (!card.match) {
-                    handleClick(card);
-                  } else {
-                    console.log('nop2');
-                  }
-                }}
-                backImg={card.img}
-              />
-            </ReactCardFlip>
-          ))}
-      </Content>
+      {!playerName ? (
+        <InputName onChange={name => setPlayerName(name)} />
+      ) : (
+        <Content>
+          {statusCards &&
+            statusCards.map(card => (
+              <ReactCardFlip isFlipped={card.status} key={card.name}>
+                <FrontCard
+                  onClick={() => {
+                    if (!card.match) {
+                      handleClick(card);
+                    } else {
+                      console.log('nop');
+                    }
+                  }}
+                />
+                <BackCard
+                  onClick={() => {
+                    if (!card.match) {
+                      handleClick(card);
+                    } else {
+                      console.log('nop2');
+                    }
+                  }}
+                  backImg={card.img}
+                />
+              </ReactCardFlip>
+            ))}
+        </Content>
+      )}
     </Container>
   );
 };

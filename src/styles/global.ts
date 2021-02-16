@@ -14,5 +14,17 @@ export default createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 
+  input {
+    border-style: none;
+    background: transparent;
+    outline: none;
+  }
+
+  button {
+    padding: 0;
+    background: none;
+    border: none;
+    outline: none;
+  }
 
 `;
