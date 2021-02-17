@@ -44,8 +44,8 @@ export const TitleContainter = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* padding: 10px; */
 `;
+
 export const Title = styled.h1`
   font-family: 'Teko', sans-serif;
   color: azure;
@@ -118,4 +118,15 @@ export const BackCard = styled.div<backCardProps>`
   border-radius: 10px;
 
   cursor: pointer;
+`;
+
+export const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 100%;
+`;
+
+export const ContentContainer = styled.div`
+  justify-content: center;
 `;

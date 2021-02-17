@@ -9,8 +9,12 @@ import {
   Title,
   SubTitle,
   TitleContainter,
+  ModalContainer,
+  ContentContainer,
 } from './styles';
 import InputName from '../../components/InputName';
+import AlertModal from '../../components/Modal';
+import NewGameButton from '../../components/NewGameButton';
 import CardObj from '../../utils/cards';
 
 interface CardObject {
@@ -108,6 +112,19 @@ const MemoryGame: React.FC = () => {
     resetCards();
   };
 
+  const resetGame = () => {
+    const newCards = statusCards.map(card => {
+      return { ...card, status: false, match: false };
+    });
+    resetCards();
+    setAttempts(0);
+    setPlayerName(null);
+    setStatusCards(newCards);
+    setTimeout(() => {
+      setWinner(false);
+    }, 1000);
+  };
+
   useEffect(() => {
     if (!firstSelected || !secondSelected) {
       return;
@@ -120,14 +137,6 @@ const MemoryGame: React.FC = () => {
     }
   }, [firstSelected, secondSelected]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (winner) {
-        alert(`vc ganhou em ${attempts} tentativas`);
-      }
-    }, 1100);
-  }, [winner]);
-
   return (
     <Container>
       <TitleContainter>
@@ -139,32 +148,43 @@ const MemoryGame: React.FC = () => {
       {!playerName ? (
         <InputName onChange={name => setPlayerName(name)} />
       ) : (
-        <Content>
-          {statusCards &&
-            statusCards.map(card => (
-              <ReactCardFlip isFlipped={card.status} key={card.name}>
-                <FrontCard
-                  onClick={() => {
-                    if (!card.match) {
-                      handleClick(card);
-                    } else {
-                      console.log('nop');
-                    }
-                  }}
-                />
-                <BackCard
-                  onClick={() => {
-                    if (!card.match) {
-                      handleClick(card);
-                    } else {
-                      console.log('nop2');
-                    }
-                  }}
-                  backImg={card.img}
-                />
-              </ReactCardFlip>
-            ))}
-        </Content>
+        <>
+          <Content>
+            {statusCards &&
+              statusCards.map(card => (
+                <ReactCardFlip isFlipped={card.status} key={card.name}>
+                  <FrontCard
+                    onClick={() => {
+                      if (!card.match) {
+                        handleClick(card);
+                      } else {
+                        console.log('nop');
+                      }
+                    }}
+                  />
+                  <BackCard
+                    onClick={() => {
+                      if (!card.match) {
+                        handleClick(card);
+                      } else {
+                        console.log('nop2');
+                      }
+                    }}
+                    backImg={card.img}
+                  />
+                </ReactCardFlip>
+              ))}
+          </Content>
+          <AlertModal isOpen={winner}>
+            <ModalContainer>
+              <ContentContainer>
+                <Title>Parabéns!</Title>
+                <SubTitle>{`Você encontrou todos os pares em ${attempts} rodadas!`}</SubTitle>
+              </ContentContainer>
+              <NewGameButton click={() => resetGame()} />
+            </ModalContainer>
+          </AlertModal>
+        </>
       )}
     </Container>
   );
