@@ -1,8 +1,18 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Button = styled.button`
+interface Props {
+  sizes?: { width: string; margin: string };
+}
+
+const Button = styled.button<Props>`
   position: relative;
-  margin: 0 auto;
+
+  ${({ sizes }) => css`
+    margin: ${sizes ? sizes.margin : '0 auto'};
+    width: ${sizes ? sizes.width : ''};
+  `}
+
+  margin: ${({ sizes }) => (sizes ? sizes.margin : '0 auto')};
   padding-right: 1.5rem;
   padding-left: 1.5rem;
   font-size: 1rem;

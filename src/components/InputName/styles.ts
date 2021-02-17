@@ -11,7 +11,7 @@ export const InputContainer = styled.div`
   flex-direction: row;
   width: 100%;
   max-width: 450px;
-  margin: 8rem auto;
+  margin: 5rem auto;
   border-radius: 2px;
   padding: 0.6rem 0.3rem 0.5rem;
   background: rgba(57, 63, 84, 0.8);
