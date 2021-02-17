@@ -119,7 +119,7 @@ const MemoryGame: React.FC = () => {
     resetCards();
     setAttempts(0);
     setPlayerName(null);
-    setStatusCards(newCards);
+    setStatusCards(newCards.sort(() => Math.random() - 0.5));
     setTimeout(() => {
       setWinner(false);
     }, 1000);
